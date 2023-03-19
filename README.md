@@ -32,7 +32,11 @@ while taking into account the operation environment of the enterprise. So it's t
          
 四、效果展示
 
+    
+    构建代码执行ok：
+    <img width="1082" alt="图片" src="https://user-images.githubusercontent.com/126040842/226171778-db514857-fb74-4d95-919f-9532a836aee4.png">
 
+     
 
 五、复盘与改进
 
