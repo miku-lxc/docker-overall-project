@@ -10,12 +10,19 @@ while taking into account the operation environment of the enterprise. So it's t
      dockerfile等从构建到私有库共有库等。实现企业的一些列流程。
      
 二、构建案列
-
+     
+     本次代码主要是在本地用vscode写的，没有测试。所以要先将这些dockerfile 用build.sh 进行执行测试构建是否成功
+     然后再去利用compose编排一键部署，ps：测试代码测试之后，docker安装的容器可通过portainer面板删除。
+     
 
 
 三、部署lnmp
-
-
+     
+     1.网路拓扑图
+     
+     2.代码说明
+     
+          
 
 四、效果展示
 
@@ -26,4 +33,5 @@ while taking into account the operation environment of the enterprise. So it's t
 
 
 六、复现代码
+     
      
