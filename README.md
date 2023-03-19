@@ -25,6 +25,10 @@ while taking into account the operation environment of the enterprise. So it's t
           
      2.代码说明
      
+     每个服务下面都有对应的dockerfile和构建脚本，只需先构建好，中间有传送到harbor的代码，然后通过compose进行编排。
+     在compose中有自动构建的命令，也可以手动一个个构建，测试代码完整性。
+         
+         
          
 四、效果展示
 
