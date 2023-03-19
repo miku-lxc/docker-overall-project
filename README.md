@@ -44,6 +44,10 @@ while taking into account the operation environment of the enterprise. So it's t
 <img width="1082" alt="图片" src="https://user-images.githubusercontent.com/126040842/226172563-967bee81-2080-4268-ab27-355bfbe8c1ea.png">
 
     
+    容器运行ok
+    
+![图片](https://user-images.githubusercontent.com/126040842/226175216-51802fcd-6764-4986-9888-2d8e29a3b9f1.png)
+
     
 
 
