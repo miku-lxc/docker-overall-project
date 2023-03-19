@@ -1,0 +1,135 @@
+#### 本文件基本上涵盖了compose的相关用法，适合当模版 
+####尽量多走一点，这样才能广泛的学习
+###被注释的掉的为可选项 里面附带了我的文字说明，方便后续的人进行运维，这也是加注释的目的
+##。/表示当前目录的u路径  /绝对路径 。。/表示文件所在上一层的目录
+
+version: "3.0"
+services:
+  mysql: #项目id
+    build: #启动服务时，先将build中指定的dockerfile打包成镜像，再运行该镜像
+      context: cd /miku/docker/docker_all/DOCEKR/mysql/ #指定上下文目录dockerfile所在目录[相对、绝对路径都可以]
+      dockerfile:  Dockerfile #文件名称
+      args: #指定构建镜像时候的变量
+        buildno: 1 
+    container_name: miku-mysql
+    image: miku-mysql:5.7 ## 可以写你自己构建的img，也可以写hub 也可以诶写私有的 ，运行机制的是compose 先本地后拉 
+    networks: #代表当前服务使用那个网络桥
+      - lnmp_net   ##定义网桥是在最底部 美观哈
+    volumes: #完成宿主机与容器中目录数据卷的映射(可以挂在多个) 相当于run -v
+      - /usr/local/software/mysql/:/usr/local/mysql #使用自定义路径映射
+
+
+#   sysctls:  ###配置容器内核参数
+#          net.core.somaxconn: 1024
+#          net.ipv4.tcp_syncookies: 0
+
+######3如，指定最大进程数为 65535，指定文件句柄数为 20000（软限制，应用可以随时修改，不能超过硬限制） 和 40000（系统硬限制，只能 root 用户提高）。
+#    ulimits:
+#          nproc: 65535
+#          nofile:
+#            soft: 20000
+#            hard: 40000
+
+
+###这里端口随机指定吧，因为的云服务器安装的端口太多了，避免冲突随机派发，之后同过面板查看吧  
+#    ports:
+#     - "8881:8881"
+
+
+#    depends_on:  ###容器依赖的问题  注意：web 服务不会等待 redis db 「完全启动」之后才启动。
+#      - db
+#      - redis
+
+###设置环境也可以用这个。两种范式一种这个 ，一种文件
+#    environment: ###下面的变量根据需求来
+#          WORDPRESS_DB_HOST: db:3306
+#          WORDPRESS_DB_USER: wordpress
+#          WORDPRESS_DB_PASSWORD: wordpress
+
+    env_file: #替换environment的配置[直接给该文件、不会泄露密码等信息]
+          - /miku/docker/docker_all/DOCEKR/mysql/mysql.env #此处为相对路径，也可以写绝对路径[里面的格式key=value，并且支持#的注释]
+#          - ./apps/web.env
+
+#    healthcheck:  #通过命令检查容器是否健康运行。
+#          test: [ "CMD", "curl", "-f", "http://localhost" ]    ###z可以改为ip 里面设置的是循环地址
+#          interval: 1m30s
+#          timeout: 10s
+#          retries: 3
+#    command: "redis-server --appendonly yes" #run镜像之后，appendonly覆盖容器内的默认命令
+
+##因为服务都是一个网桥，所以这里先注释，网桥放最下边
+#networks: #定义服务使用到的网桥
+#  lnmp_net: #定义上面的服务用到的网桥名称， 默认创建的就是bridge
+#    external:
+#      false #使用外部指定网桥，注意，网桥必须存在[docker network create -d bridge hello]
+  
+  #声明数据卷
+#volumes: #声明上面服务所使用的自动的卷名
+#  tomcatWebapps: #声明指定的卷名 compose会自动创建改卷明，但是会在之前加入项目名
+#    external: #使用自定义的卷名
+#      false #true确定使用自定义卷名 注意，一旦使用外部自定义卷名，启动服务之前必须手动创建   
+
+
+
+####模版就在上面，下面的部分就不写模版了，不重复造轮子
+  nginx: #项目id
+    build: #启动服务时，先将build中指定的dockerfile打包成镜像，再运行该镜像
+      context: cd /miku/docker/docker_all/DOCEKR/nginx #指定上下文目录dockerfile所在目录[相对、绝对路径都可以]
+      dockerfile:  Dockerfile #文件名称
+      args: #指定构建镜像时候的变量
+        buildno: 1 
+    container_name: miku-nginx
+    image: miku-nginx:1.19 ## 可以写你自己构建的img，也可以写hub 也可以诶写私有的 ，运行机制的是compose 先本地后拉 
+    networks: #代表当前服务使用那个网络桥
+      - lnmp_net   ##定义网桥是在最底部 美观哈
+    volumes: #完成宿主机与容器中目录数据卷的映射(可以挂在多个) 相当于run -v
+      - /usr/local/software/nginx/:/etc/nginx/conf.d/default.conf #使用自定义路径映射
+#nginx没有就先注销下面的设置环境比
+ #   env_file: #替换environment的配置[直接给该文件、不会泄露密码等信息]
+ #       - /miku/docker/docker_all/DOCEKR/mysql/mysql.env #此处为相对路径，也可以写绝对路径[里面的格式key=value，并且支持#的注释]
+#          - ./apps/web.env
+
+
+
+
+
+  php: #项目id
+    build: #启动服务时，先将build中指定的dockerfile打包成镜像，再运行该镜像
+      context: cd /miku/docker/docker_all/DOCEKR/php #指定上下文目录dockerfile所在目录[相对、绝对路径都可以]
+      dockerfile:  Dockerfile #文件名称
+      args: #指定构建镜像时候的变量
+        buildno: 1 
+    container_name: miku-php
+    image: miku-php:7.4    ## 可以写你自己构建的img，也可以写hub 也可以诶写私有的 ，运行机制的是compose 先本地后拉 
+    networks: #代表当前服务使用那个网络桥
+      - lnmp_net   ##定义网桥是在最底部 美观哈
+    volumes: #完成宿主机与容器中目录数据卷的映射(可以挂在多个) 相当于run -v
+      - /usr/local/software/php/html:/var/www/html #使用自定义路径映射
+#    env_file: #替换environment的配置[直接给该文件、不会泄露密码等信息]
+#      - /miku/docker/docker_all/DOCEKR/nginx/nginx.env #此处为相对路径，也可以写绝对路径[里面的格式key=value，并且支持#的注释]
+
+
+  redis: #项目id
+    build: #启动服务时，先将build中指定的dockerfile打包成镜像，再运行该镜像
+      context: cd /miku/docker/docker_all/DOCEKR/redis #指定上下文目录dockerfile所在目录[相对、绝对路径都可以]
+      dockerfile:  Dockerfile #文件名称
+      args: #指定构建镜像时候的变量
+        buildno: 1 
+    container_name: miku-redis
+    image: miku-redis:6.2 ## 可以写你自己构建的img，也可以写hub 也可以诶写私有的 ，运行机制的是compose 先本地后拉 
+    networks: #代表当前服务使用那个网络桥
+      - lnmp_net   ##定义网桥是在最底部 美观哈
+    volumes: #完成宿主机与容器中目录数据卷的映射(可以挂在多个) 相当于run -v
+      - /usr/local/software/redis/:/usr/local/etc/redis/redis.conf#使用自定义路径映射
+#    env_file: #替换environment的配置[直接给该文件、不会泄露密码等信息]
+#        - /miku/docker/docker_all/DOCEKR/redis/redis.env #此处为相对路径，也可以写绝对路径[里面的格式key=value，并且支持#的注释]
+
+
+
+
+
+
+networks: #定义服务使用到的网桥
+  lnmp_net: #定义上面的服务用到的网桥名称， 默认创建的就是bridge
+    external:
+      false #使用外部指定网桥，注意，网桥必须存在[docker network create -d bridge hello]
