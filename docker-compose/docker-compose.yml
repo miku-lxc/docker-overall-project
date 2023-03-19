@@ -128,8 +128,15 @@ services:
 
 
 
+###人性化自定指定创建
+networks:
+  lnmp_net:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
-networks: #定义服务使用到的网桥
-  lnmp_net: #定义上面的服务用到的网桥名称， 默认创建的就是bridge
-    external:
-      false #使用外部指定网桥，注意，网桥必须存在[docker network create -d bridge hello]
+####这是要提前创建不够人性化
+#networks: #定义服务使用到的网桥
+#  lnmp_net: #定义上面的服务用到的网桥名称， 默认创建的就是bridge
+#    external:
+#      false #使用外部指定网桥，注意，网桥必须存在[docker network create -d bridge hello]
