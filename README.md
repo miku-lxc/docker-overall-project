@@ -34,7 +34,10 @@ while taking into account the operation environment of the enterprise. So it's t
 
     
     构建代码执行ok：
-    <img width="1082" alt="图片" src="https://user-images.githubusercontent.com/126040842/226171778-db514857-fb74-4d95-919f-9532a836aee4.png">
+    
+    
+<img width="1082" alt="图片" src="https://user-images.githubusercontent.com/126040842/226171810-38e3d47a-6807-47e2-815a-60674d5addde.png">
+
 
      
 
