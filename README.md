@@ -38,8 +38,15 @@ while taking into account the operation environment of the enterprise. So it's t
     
 <img width="1082" alt="图片" src="https://user-images.githubusercontent.com/126040842/226171810-38e3d47a-6807-47e2-815a-60674d5addde.png">
 
+    编排执行OK
 
-     
+
+<img width="1082" alt="图片" src="https://user-images.githubusercontent.com/126040842/226172563-967bee81-2080-4268-ab27-355bfbe8c1ea.png">
+
+    
+    
+
+
 
 五、复盘与改进
 
